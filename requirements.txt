@@ -2,9 +2,12 @@ django
 channels
 channels_redis
 djangorestframework
-psycopg2-binary
-pillow
 django-cors-headers
 django-cleanup
 django-allauth
 django-htmx
+psycopg2-binary
+pillow
+daphne
+django-filter
+redis
