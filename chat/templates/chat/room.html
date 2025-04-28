@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Room</title>
+</head>
+<body>
+    <h2>Room: {{ room_name }}</h2>
+
+    <div id="chat-log"></div>
+
+    <input type="file" id="fileInput">
+    <input id="chat-message-input" type="text" placeholder="Type a message...">
+    <button id="chat-message-submit">Send</button>
+
+    <script>
+        const roomName = "{{ room_name }}";
+        const username = "{{ username }}";
+        const chatSocket = new WebSocket(
+            'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            let msg = data.username + ": " + data.message;
+            if (data.file) {
+                msg += `<br><img src="${data.file}" style="max-width:200px;">`;
+            }
+            document.querySelector('#chat-log').innerHTML += ('<p>' + msg + '</p>');
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const fileInputDom = document.querySelector('#fileInput');
+
+            const message = messageInputDom.value;
+            const file = fileInputDom.files[0];
+
+            if (file) {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                fetch('/upload/', {
+                    method: 'POST',
+                    body: formData,
+                }).then(response => response.json())
+                .then(data => {
+                    chatSocket.send(JSON.stringify({
+                        'message': message,
+                        'username': username,
+                        'file': data.file_url
+                    }));
+                });
+            } else {
+                chatSocket.send(JSON.stringify({
+                    'message': message,
+                    'username': username
+                }));
+            }
+            messageInputDom.value = '';
+            fileInputDom.value = '';
+        };
+    </script>
+</body>
+</html>
