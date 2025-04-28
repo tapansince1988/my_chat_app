@@ -1,0 +1,5 @@
+django
+channels
+channels_redis
+djangorestframework
+psycopg2-binary
