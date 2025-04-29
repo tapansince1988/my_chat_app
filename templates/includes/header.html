@@ -3,7 +3,7 @@
     <div>
         <a class="flex items-center gap-2" href="/">
             <img class="h-6" src="{% static 'images/logo.svg' %}" alt="Logo"/>
-            <span class="text-lg font-bold">Project Title</span>
+            <span class="text-lg font-bold">RealTime Chat APP</span>
         </a>
     </div>
     <nav class="block relative">
@@ -24,7 +24,7 @@
                     <ul class="hoverlist [&>li>a]:justify-end">
                         <li><a href="{% url 'profile' %}">My Profile</a></li>
                         <li><a href="{% url 'profile-edit' %}">Edit Profile</a></li>
-                        <li><a href="{% url 'profile-settings' %}">Settings</a></li>
+                        {% comment %} <li><a href="{% url 'profile-settings' %}">Settings</a></li> {% endcomment %}
                         <li><a href="{% url 'account_logout' %}">Log Out</a></li>
                     </ul>
                 </div>
