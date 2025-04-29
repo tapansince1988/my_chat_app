@@ -65,8 +65,9 @@
                 </form>
                 <form id="chat_file_form" enctype="multipart/form-data" class="flex items-center w-full" 
                     {% comment %} hx-post="{% url 'chat-file-upload' chat_group.group_name %}" {% endcomment %}
-                    hx-target="#chat_messages"
-                    hx-swap="beforeend" 
+                    hx-ext="ws"
+                    ws-connect="/ws/chatroom/public-chat"
+                    ws-send
                     _="on htmx:beforeSend reset() me" >
                     {% csrf_token %}
                     <input type="file" name="file" id="id_file" class="!bg-transparent text-gray-400">
